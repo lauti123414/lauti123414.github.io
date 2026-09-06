@@ -70,7 +70,6 @@
             transform: translateY(0);
         }
 
-        /* Estilo para fotos individuales de los otros años */
         .single-photo {
             width: 100%;
             max-width: 400px;
@@ -81,7 +80,7 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
-        /* --- NUEVO: Estilo Mosaico para las 7 fotos del Año 1 --- */
+        /* Estilo Mosaico */
         .collage {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -100,7 +99,6 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* La primera foto ocupa las 3 columnas y es más alta */
         .collage img:first-child {
             grid-column: span 3;
             height: 350px; 
@@ -111,7 +109,6 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             z-index: 10;
         }
-        /* -------------------------------------------------------- */
 
         .memory-title {
             color: #d6336c;
@@ -140,7 +137,6 @@
             60% { transform: translateY(-10px); }
         }
 
-        /* Ajuste para pantallas de celular */
         @media (max-width: 600px) {
             .collage img { height: 100px; }
             .collage img:first-child { height: 200px; }
@@ -157,7 +153,7 @@
 
     <section class="timeline">
         
-        <!-- Año 1 con las 7 fotos en collage -->
+        <!-- Año 1 -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 1: Donde todo empezó</h2>
             
@@ -177,22 +173,32 @@
         <!-- Año 2 -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 2: Creciendo juntos</h2>
-            <img class="single-photo" src="foto8.jpg" alt="Nuestro segundo año">
-            <p class="memory-text">Un buen lugar para recordar alguna anécdota divertida o momentos compartidos.</p>
+            
+            <div class="collage">
+                <img src="foto8.jpg" alt="Recuerdo 8">
+                <img src="foto9.jpg" alt="Recuerdo 9">
+                <img src="foto10.jpg" alt="Recuerdo 10">
+                <img src="foto11.jpg" alt="Recuerdo 11">
+                <img src="foto12.jpg" alt="Recuerdo 12">
+                <img src="foto13.jpg" alt="Recuerdo 13">
+                <img src="foto14.jpg" alt="Recuerdo 14">
+            </div>
+
+            <p class="memory-text">Nuestra familia se agrandó. Momentos únicos, cumpleaños y tardes compartidas que hacen que cada día valga la pena.</p>
         </div>
 
         <!-- Año 3 -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 3: Proyectos y aventuras</h2>
-            <img class="single-photo" src="foto9.jpg" alt="Nuestro tercer año">
-            <p class="memory-text">Podés mencionar hitos de ustedes, algún viaje de ruta, o cuando empezaron a armar proyectos.</p>
+            <img class="single-photo" src="foto15.jpg" alt="Nuestro tercer año">
+            <p class="memory-text">Podés mencionar hitos de ustedes, como cuando fueron al Lolla, viajes en ruta, o esos momentos en los que empezaron a cranear proyectos.</p>
         </div>
 
         <!-- Año 4 -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 4: Y lo que nos falta...</h2>
-            <img class="single-photo" src="foto10.jpg" alt="Nuestro cuarto año">
-            <p class="memory-text">Un mensaje de cierre sobre cómo están hoy y lo mucho que la amás. ¡El broche de oro!</p>
+            <img class="single-photo" src="foto16.jpg" alt="Nuestro cuarto año">
+            <p class="memory-text">El viaje a Córdoba, todo el esfuerzo que le pusieron para arrancar juntos con Kits&Co este último tiempo, y lo mucho que la amás. ¡El broche de oro!</p>
         </div>
 
     </section>
