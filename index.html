@@ -8,7 +8,7 @@
         body { 
             font-family: 'Helvetica Neue', Arial, sans-serif; 
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); 
-            background-attachment: fixed; /* Mantiene el fondo quieto mientras bajas */
+            background-attachment: fixed; 
             text-align: center; 
             color: #333; 
             margin: 0; 
@@ -16,7 +16,6 @@
             overflow-x: hidden;
         }
         
-        /* Sección inicial a pantalla completa */
         .hero {
             height: 100vh;
             display: flex;
@@ -46,7 +45,6 @@
             animation: bounce 2s infinite;
         }
 
-        /* Estructura de la línea de tiempo */
         .timeline {
             max-width: 800px;
             margin: 0 auto;
@@ -62,20 +60,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            
-            /* Clases para la animación de scroll */
             opacity: 0;
             transform: translateY(50px);
             transition: all 0.8s ease-out;
         }
 
-        /* Cuando el bloque es visible en pantalla */
         .memory-block.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .memory-block img {
+        /* Estilo para fotos individuales de los otros años */
+        .single-photo {
             width: 100%;
             max-width: 400px;
             height: auto;
@@ -85,19 +81,51 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
+        /* --- NUEVO: Estilo Mosaico para las 7 fotos del Año 1 --- */
+        .collage {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .collage img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid #fff;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* La primera foto ocupa las 3 columnas y es más alta */
+        .collage img:first-child {
+            grid-column: span 3;
+            height: 350px; 
+        }
+
+        .collage img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        /* -------------------------------------------------------- */
+
         .memory-title {
             color: #d6336c;
             font-size: 1.8em;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .memory-text {
             font-size: 1.1em;
             line-height: 1.6;
             color: #555;
+            padding: 0 15px;
         }
 
-        /* Animaciones iniciales */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -111,51 +139,64 @@
             40% { transform: translateY(-20px); }
             60% { transform: translateY(-10px); }
         }
+
+        /* Ajuste para pantallas de celular */
+        @media (max-width: 600px) {
+            .collage img { height: 100px; }
+            .collage img:first-child { height: 200px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Pantalla inicial -->
     <section class="hero">
         <h1>¡Felices 4 Años!</h1>
         <p class="subtitle">Deslizá hacia abajo para ver nuestro recorrido...</p>
         <div class="scroll-indicator">⬇️</div>
     </section>
 
-    <!-- Línea de tiempo que va apareciendo -->
     <section class="timeline">
         
-        <!-- Año 1 -->
+        <!-- Año 1 con las 7 fotos en collage -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 1: Donde todo empezó</h2>
-            <img src="foto1.jpg" alt="Nuestro primer año">
-            <p class="memory-text">Como olvidar cuando nos conocimos en el colegio, tuvimos el viaje a Puerto Madryn y llego la valki</p>
+            
+            <div class="collage">
+                <img src="foto1.jpg" alt="Recuerdo 1">
+                <img src="foto2.jpg" alt="Recuerdo 2">
+                <img src="foto3.jpg" alt="Recuerdo 3">
+                <img src="foto4.jpg" alt="Recuerdo 4">
+                <img src="foto5.jpg" alt="Recuerdo 5">
+                <img src="foto6.jpg" alt="Recuerdo 6">
+                <img src="foto7.jpg" alt="Recuerdo 7">
+            </div>
+
+            <p class="memory-text">Acá podés escribir sobre los primeros meses, cómo se conocieron o esas primeras salidas especiales que tuvieron y quedaron capturadas en estas fotos.</p>
         </div>
 
         <!-- Año 2 -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 2: Creciendo juntos</h2>
-            <img src="foto2.jpg" alt="Nuestro segundo año">
-            <p class="memory-text">La valkiria haciendo destrozos por todos lados</p>
+            <img class="single-photo" src="foto8.jpg" alt="Nuestro segundo año">
+            <p class="memory-text">Un buen lugar para recordar alguna anécdota divertida o momentos compartidos.</p>
         </div>
 
         <!-- Año 3 -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 3: Proyectos y aventuras</h2>
-            <img src="foto3.jpg" alt="Nuestro tercer año">
-            <p class="memory-text">Fuimos al lollapalooza</p>
+            <img class="single-photo" src="foto9.jpg" alt="Nuestro tercer año">
+            <p class="memory-text">Podés mencionar hitos de ustedes, algún viaje de ruta, o cuando empezaron a armar proyectos.</p>
         </div>
 
         <!-- Año 4 -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 4: Y lo que nos falta...</h2>
-            <img src="foto4.jpg" alt="Nuestro cuarto año">
-            <p class="memory-text">Ahora somos uno para el otro, y a por muchos años mas juntos. Te amo</p>
+            <img class="single-photo" src="foto10.jpg" alt="Nuestro cuarto año">
+            <p class="memory-text">Un mensaje de cierre sobre cómo están hoy y lo mucho que la amás. ¡El broche de oro!</p>
         </div>
 
     </section>
 
-    <!-- Script para detectar el scroll y animar -->
     <script>
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -163,7 +204,7 @@
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.2 }); /* Se activa cuando el 20% del bloque entra en pantalla */
+        }, { threshold: 0.15 });
 
         const hiddenElements = document.querySelectorAll('.memory-block');
         hiddenElements.forEach((el) => observer.observe(el));
