@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4 Años ❤️</title>
+    <title>Felices 4 Años ❤️</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body, html {
-            background-color: #121212; 
-            color: #f5f5f5;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             height: 100%;
-            overflow: hidden; /* Oculta el scroll por defecto del body */
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
         }
 
-        /* Contenedor principal con el efecto de scroll magnético */
+        /* Ocultar barra de scroll para que se vea más limpio */
+        ::-webkit-scrollbar { display: none; }
+
+        /* Contenedor principal */
         .snap-container {
             height: 100vh;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
         }
 
         .slide {
@@ -33,112 +37,174 @@
             scroll-snap-align: start; 
             padding: 20px;
             position: relative;
+            z-index: 10;
+        }
+
+        /* Corazones flotantes de fondo */
+        .floating-hearts {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            bottom: -10%;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 24px;
+            animation: flyUp linear infinite;
+        }
+
+        @keyframes flyUp {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(360deg) scale(1.5); opacity: 0; }
         }
 
         /* Pantalla 1: Título */
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 300;
-            letter-spacing: 3px;
+            font-size: 4rem;
+            color: #d6336c;
             margin-bottom: 10px;
-            color: #ff9a9e;
-            text-align: center;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
         }
         .hero p {
-            font-size: 1.2rem;
-            opacity: 0.6;
+            font-size: 1.4rem;
+            color: #555;
             animation: pulse 2s infinite;
-            margin-top: 40px;
-            letter-spacing: 1px;
+            margin-top: 30px;
         }
 
-        /* Contenedor de la foto */
-        .photo-container {
-            width: 100%;
-            height: 65vh; 
+        /* Contenedor de las 2 fotos */
+        .photos-wrapper {
             display: flex;
+            gap: 30px;
             justify-content: center;
             align-items: center;
+            width: 100%;
+            max-width: 900px;
         }
 
-        .photo-container img {
+        .photo-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            /* Estado inicial para la animación */
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Efectos de entrada desde los costados */
+        .photo-item.left { transform: translateX(-50px) translateY(30px); }
+        .photo-item.right { transform: translateX(50px) translateY(30px); }
+
+        /* Cuando el slide está en pantalla */
+        .slide.visible .photo-item {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+        .slide.visible .photo-item.right {
+            transition-delay: 0.2s; /* La segunda foto entra un toque después */
+        }
+
+        .photo-item img {
             max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; 
-            border-radius: 8px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            height: 40vh; /* Altura para que entren bien en PC */
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #fff;
+            transition: transform 0.4s ease;
         }
 
-        /* Texto debajo de cada foto */
+        .photo-item img:hover {
+            transform: scale(1.03) rotate(1deg);
+        }
+
         .caption {
-            margin-top: 30px;
-            font-size: 1.15rem;
-            font-weight: 300;
+            margin-top: 15px;
+            font-size: 1.05rem;
+            color: #444;
             text-align: center;
-            max-width: 85%;
-            line-height: 1.6;
-            opacity: 0.9;
+            line-height: 1.4;
+            font-style: italic;
         }
 
-        /* Cartelito del año arriba */
         .year-badge {
             position: absolute;
             top: 40px;
-            font-size: 0.85rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #ff9a9e;
-            opacity: 0.8;
+            font-size: 1.5rem;
             font-weight: bold;
+            color: #d6336c;
+            background: rgba(255,255,255,0.8);
+            padding: 8px 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         /* Botón y mensaje sorpresa final */
         .btn {
-            background: #ff9a9e;
-            color: #121212;
+            background: #d6336c;
+            color: white;
             border: none;
             padding: 15px 40px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             font-weight: bold;
-            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(214, 51, 108, 0.3);
         }
-        .btn:hover { transform: scale(1.05); background: #fecfef; }
+        .btn:hover { background: #a61e4d; transform: scale(1.05); }
         
         #secret-message {
             display: none;
             margin-top: 30px;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            font-weight: 300;
-            max-width: 600px;
-            text-align: center;
-            animation: fadeIn 1.5s forwards;
-            padding: 0 20px;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #333;
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 700px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 1s forwards;
         }
 
         @keyframes pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Adaptación para celulares */
+        @media (max-width: 768px) {
+            .photos-wrapper { flex-direction: column; gap: 15px; }
+            .photo-item { padding: 10px; width: 90%; }
+            .photo-item img { height: 25vh; } /* Achicamos para que entren las dos juntas */
+            .year-badge { top: 20px; font-size: 1.2rem; }
+            .hero h1 { font-size: 3rem; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Capa de corazones animados -->
+    <div class="floating-hearts" id="hearts-container"></div>
+
     <div class="snap-container" id="main-container">
         
         <!-- Portada -->
-        <div class="slide hero">
-            <h1>4 Años</h1>
-            <div style="font-size: 1.2rem; font-weight: 300; letter-spacing: 2px;">Nuestra historia</div>
+        <div class="slide hero visible">
+            <h1>¡Felices 4 Años!</h1>
+            <div style="font-size: 1.4rem; color: #d6336c; font-weight: bold;">Nuestra historia</div>
             <p>Deslizá hacia abajo ↓</p>
         </div>
 
-        <!-- Las fotos se inyectan acá vía JavaScript -->
-
-        <!-- Cierre y Sorpresa -->
+        <!-- Cierre y Sorpresa (Las fotos se inyectan arriba de esto) -->
         <div class="slide final-slide">
-            <button class="btn" onclick="revealMessage()">Tengo algo para decirte...</button>
+            <button class="btn" onclick="revealMessage()">Tengo una última sorpresa...</button>
             <div id="secret-message">
                 Sos mi persona favorita en el mundo. Me encanta admirar todo lo que lográs y cómo le ponés tu toque a cada cosa que hacemos juntos, desde meter ese viajazo a Córdoba hasta ponerle toda la garra a Kits&Co este último tiempo. Gracias por estos 4 años increíbles, por la paciencia y por ser mi mejor equipo. ¡Feliz aniversario, te amo muchísimo! ❤️<br><br>
                 <strong>- Lauti</strong>
@@ -148,63 +214,106 @@
     </div>
 
     <script>
+        // Tus 29 fotos con sus textos
         const photos = [
-            // AÑO 1
-            { src: "foto1.jpg", year: "Año 1", text: "Donde todo empezó. El primer año lleno de risas y descubriéndonos." },
-            { src: "foto2.jpg", year: "Año 1", text: "Nuestras primeras salidas. Siempre con esa sonrisa tuya que me encanta." },
-            { src: "foto3.jpg", year: "Año 1", text: "Caminatas, verde y nosotros dos. ¿Qué más podíamos pedir?" },
-            { src: "foto4.jpg", year: "Año 1", text: "Tardes de calor y verano. Momentos simples pero perfectos." },
-            { src: "foto5.jpg", year: "Año 1", text: "Paseando por ahí. Me acuerdo de ese día, siempre tan linda." },
-            { src: "foto6.jpg", year: "Año 1", text: "Aventuras en el agua. Con salvavidas pero ya estábamos salvados el uno con el otro." },
-            { src: "foto7.jpg", year: "Año 1", text: "Esa paz que transmitís. Disfrutando del solcito y de estar a la par." },
+            { src: "foto1.jpg", year: "Año 1", text: "Donde todo empezó. Felicidad intacta." },
+            { src: "foto2.jpg", year: "Año 1", text: "Nuestras primeras salidas." },
+            { src: "foto3.jpg", year: "Año 1", text: "Aventuras, cerros y mucho verde." },
+            { src: "foto4.jpg", year: "Año 1", text: "Los primeros veranos a la par." },
+            { src: "foto5.jpg", year: "Año 1", text: "Paseando por ahí y sonriendo siempre." },
+            { src: "foto6.jpg", year: "Año 1", text: "Aventuras en el agua." },
+            { src: "foto7.jpg", year: "Año 1", text: "Esa paz que solo encuentro con vos." },
             
-            // AÑO 2
-            { src: "foto8.jpg", year: "Año 2", text: "La familia se agranda. El día que sumamos más amor a nuestras vidas." },
-            { src: "foto9.jpg", year: "Año 2", text: "Siestas amontonados. Los dueños del sillón y de nuestros corazones." },
-            { src: "foto10.jpg", year: "Año 2", text: "Selfies con cielo despejado. Nuestro segundo año brillando juntos." },
-            { src: "foto11.jpg", year: "Año 2", text: "Cumpleaños felices. Festejando y pidiendo deseos que ya se nos cumplieron." },
-            { src: "foto12.jpg", year: "Año 2", text: "Los tres juntos. Nuestra pequeña gran familia." },
-            { src: "foto13.jpg", year: "Año 2", text: "El rey de la casa en su máxima expresión de relax." },
-            { src: "foto14.jpg", year: "Año 2", text: "Tardes de descanso en casa. Nuestra rutina favorita." },
+            { src: "foto8.jpg", year: "Año 2", text: "La familia se agranda 🐶❤️" },
+            { src: "foto9.jpg", year: "Año 2", text: "Siestas amontonados en el sillón." },
+            { src: "foto10.jpg", year: "Año 2", text: "Nuestro segundo año brillando juntos." },
+            { src: "foto11.jpg", year: "Año 2", text: "Cumpleaños y deseos cumplidos." },
+            { src: "foto12.jpg", year: "Año 2", text: "Los tres juntos. Nuestra familia." },
+            { src: "foto13.jpg", year: "Año 2", text: "El rey de la casa muy relajado." },
+            { src: "foto14.jpg", year: "Año 2", text: "Nuestra rutina favorita." },
             
-            // AÑO 3
-            { src: "foto15.jpg", year: "Año 3", text: "Previa del Lolla. La emoción de compartir la música que nos gusta." },
-            { src: "foto16.jpg", year: "Año 3", text: "En el medio del festival. Cansados pero más que felices." },
-            { src: "foto17.jpg", year: "Año 3", text: "Otro recuerdo inolvidable del Lollapalooza. Siempre juntos." },
-            { src: "foto18.jpg", year: "Año 3", text: "Cantando a los gritos en la noche. Un viaje que nos marcó." },
-            { src: "foto19.jpg", year: "Año 3", text: "Haciéndonos el aguante en la facu. Entre apuntes, clases y mucho compañerismo." },
-            { src: "foto20.jpg", year: "Año 3", text: "Desconectando en la cima. Salta de fondo y vos al lado mío." },
+            { src: "foto15.jpg", year: "Año 3", text: "Previa del Lolla, listos para saltar." },
+            { src: "foto16.jpg", year: "Año 3", text: "Cansados pero más que felices." },
+            { src: "foto17.jpg", year: "Año 3", text: "Recuerdo inolvidable del festival." },
+            { src: "foto18.jpg", year: "Año 3", text: "Cantando a los gritos en la noche." },
+            { src: "foto19.jpg", year: "Año 3", text: "Haciéndonos el aguante en la facu." },
+            { src: "foto20.jpg", year: "Año 3", text: "Desconectando en la cima de Salta." },
             
-            // AÑO 4
-            { src: "foto21.jpg", year: "Año 4", text: "Nuevos looks, el mismo equipo de siempre. Cada día más unidos." },
-            { src: "foto22.jpg", year: "Año 4", text: "Paseando por la ciudad. Siempre es un buen plan si es con vos." },
-            { src: "foto23.jpg", year: "Año 4", text: "Disfrutando a pleno el solcito. Momentos que recargan energías." },
-            { src: "foto24.jpg", year: "Año 4", text: "Explorando nuevos caminos. Me encanta acompañarte a donde vayas." },
-            { src: "foto25.jpg", year: "Año 4", text: "Esa sonrisa tuya que me sigue enamorando como el primer día." },
-            { src: "foto26.jpg", year: "Año 4", text: "Citas improvisadas. Compartiendo charlas y comidas." },
-            { src: "foto27.jpg", year: "Año 4", text: "En casa, en lo cotidiano. Ahí es donde más me gusta estar." },
-            { src: "foto28.jpg", year: "Año 4", text: "Listos para salir. Facheros y siempre preparados para un nuevo plan." },
-            { src: "foto29.jpg", year: "Año 4", text: "Nosotros. Nuestro pequeño mundo. Por muchísimos años más juntos." }
+            { src: "foto21.jpg", year: "Año 4", text: "Nuevos looks, el mismo equipo." },
+            { src: "foto22.jpg", year: "Año 4", text: "Paseando por la ciudad." },
+            { src: "foto23.jpg", year: "Año 4", text: "Disfrutando a pleno el solcito." },
+            { src: "foto24.jpg", year: "Año 4", text: "Explorando y acompañándonos siempre." },
+            { src: "foto25.jpg", year: "Año 4", text: "Tu sonrisa que me sigue enamorando." },
+            { src: "foto26.jpg", year: "Año 4", text: "Citas improvisadas y charlas." },
+            { src: "foto27.jpg", year: "Año 4", text: "En casa, en lo cotidiano." },
+            { src: "foto28.jpg", year: "Año 4", text: "Listos para salir. ¡Facheros!" },
+            { src: "foto29.jpg", year: "Año 4", text: "Nosotros. Por muchísimos años más." }
         ];
 
         const container = document.getElementById('main-container');
         const finalSlide = document.querySelector('.final-slide');
 
-        // Generar e insertar las fotos justo antes de la pantalla final
-        photos.forEach(photo => {
+        // Generar fotos de a PARES
+        for (let i = 0; i < photos.length; i += 2) {
+            const p1 = photos[i];
+            const p2 = photos[i + 1]; // Puede no existir si es impar
+            
             const slide = document.createElement('div');
-            slide.className = 'slide';
-            slide.innerHTML = `
-                <div class="year-badge">${photo.year}</div>
-                <div class="photo-container">
-                    <img src="${photo.src}" alt="${photo.year}">
+            slide.className = 'slide memory-block';
+            
+            let photosHTML = `
+                <div class="photo-item left">
+                    <img src="${p1.src}" alt="Foto">
+                    <div class="caption">${p1.text}</div>
                 </div>
-                <div class="caption">${photo.text}</div>
             `;
-            container.insertBefore(slide, finalSlide);
-        });
 
-        // Función para mostrar el mensaje secreto
+            // Si hay una segunda foto para este bloque, la agregamos
+            if (p2) {
+                photosHTML += `
+                    <div class="photo-item right">
+                        <img src="${p2.src}" alt="Foto">
+                        <div class="caption">${p2.text}</div>
+                    </div>
+                `;
+            }
+
+            slide.innerHTML = `
+                <div class="year-badge">${p1.year}</div>
+                <div class="photos-wrapper">
+                    ${photosHTML}
+                </div>
+            `;
+            
+            container.insertBefore(slide, finalSlide);
+        }
+
+        // Animación al hacer Scroll (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 }); // Se activa cuando se ve el 30% del bloque
+
+        const hiddenElements = document.querySelectorAll('.slide');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // Generar corazones flotantes aleatorios
+        const heartsContainer = document.getElementById('hearts-container');
+        for (let i = 0; i < 20; i++) {
+            let heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Entre 5s y 10s
+            heart.style.animationDelay = Math.random() * 5 + 's'; // Diferentes tiempos de inicio
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px'; // Tamaños variados
+            heartsContainer.appendChild(heart);
+        }
+
+        // Botón sorpresa
         function revealMessage() {
             document.getElementById('secret-message').style.display = 'block';
             document.querySelector('.btn').style.display = 'none';
