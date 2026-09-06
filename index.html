@@ -70,17 +70,7 @@
             transform: translateY(0);
         }
 
-        .single-photo {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            border: 4px solid #fff;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-
-        /* Estilo Mosaico */
+        /* Estilo Mosaico para 7 fotos (Año 1 y 2) */
         .collage {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -104,16 +94,35 @@
             height: 350px; 
         }
 
-        .collage img:hover {
+        .collage img:hover, .collage-even img:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             z-index: 10;
         }
 
+        /* Estilo Mosaico para 6 fotos (Año 3) - Sin la foto gigante arriba */
+        .collage-even {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .collage-even img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid #fff;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
         .memory-title {
             color: #d6336c;
             font-size: 1.8em;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .memory-text {
@@ -121,6 +130,7 @@
             line-height: 1.6;
             color: #555;
             padding: 0 15px;
+            font-style: italic;
         }
 
         @keyframes fadeInDown {
@@ -138,7 +148,7 @@
         }
 
         @media (max-width: 600px) {
-            .collage img { height: 100px; }
+            .collage img, .collage-even img { height: 100px; }
             .collage img:first-child { height: 200px; }
         }
     </style>
@@ -158,47 +168,58 @@
             <h2 class="memory-title">Año 1: Donde todo empezó</h2>
             
             <div class="collage">
-                <img src="foto1.jpg" alt="Recuerdo 1">
-                <img src="foto2.jpg" alt="Recuerdo 2">
-                <img src="foto3.jpg" alt="Recuerdo 3">
-                <img src="foto4.jpg" alt="Recuerdo 4">
-                <img src="foto5.jpg" alt="Recuerdo 5">
-                <img src="foto6.jpg" alt="Recuerdo 6">
-                <img src="foto7.jpg" alt="Recuerdo 7">
+                <img src="foto1.jpg" title="Nuestros primeros momentos">
+                <img src="foto2.jpg">
+                <img src="foto3.jpg">
+                <img src="foto4.jpg">
+                <img src="foto5.jpg">
+                <img src="foto6.jpg">
+                <img src="foto7.jpg">
             </div>
 
-            <p class="memory-text">Acá podés escribir sobre los primeros meses, cómo se conocieron o esas primeras salidas especiales que tuvieron y quedaron capturadas en estas fotos.</p>
+            <p class="memory-text">"El comienzo de nuestra historia. Esas primeras salidas donde nos estábamos conociendo y descubriendo que queríamos compartir el camino. Cada foto es un pedacito de esa magia inicial que nos trajo hasta acá."</p>
         </div>
 
         <!-- Año 2 -->
         <div class="memory-block hidden">
-            <h2 class="memory-title">Año 2: Creciendo juntos</h2>
+            <h2 class="memory-title">Año 2: La familia se agranda 🐶</h2>
             
             <div class="collage">
-                <img src="foto8.jpg" alt="Recuerdo 8">
-                <img src="foto9.jpg" alt="Recuerdo 9">
-                <img src="foto10.jpg" alt="Recuerdo 10">
-                <img src="foto11.jpg" alt="Recuerdo 11">
-                <img src="foto12.jpg" alt="Recuerdo 12">
-                <img src="foto13.jpg" alt="Recuerdo 13">
-                <img src="foto14.jpg" alt="Recuerdo 14">
+                <img src="foto8.jpg" title="Nuestra familia">
+                <img src="foto9.jpg">
+                <img src="foto10.jpg">
+                <img src="foto11.jpg">
+                <img src="foto12.jpg">
+                <img src="foto13.jpg">
+                <img src="foto14.jpg">
             </div>
 
-            <p class="memory-text">Nuestra familia se agrandó. Momentos únicos, cumpleaños y tardes compartidas que hacen que cada día valga la pena.</p>
+            <p class="memory-text">"Tardes enteras, cumpleaños, siestas amontonados en el sillón y el amor incondicional de los perritos que llenaron la casa de alegría (y un poco de caos). Momentos únicos que hacen que cada día valga la pena."</p>
         </div>
 
         <!-- Año 3 -->
         <div class="memory-block hidden">
-            <h2 class="memory-title">Año 3: Proyectos y aventuras</h2>
-            <img class="single-photo" src="foto15.jpg" alt="Nuestro tercer año">
-            <p class="memory-text">Podés mencionar hitos de ustedes, como cuando fueron al Lolla, viajes en ruta, o esos momentos en los que empezaron a cranear proyectos.</p>
+            <h2 class="memory-title">Año 3: Música, metas y cerros</h2>
+            
+            <div class="collage-even">
+                <img src="foto15.jpg" title="Festival">
+                <img src="foto16.jpg" title="Lolla">
+                <img src="foto17.jpg" title="Lolla">
+                <img src="foto18.jpg" title="Concierto en la noche">
+                <img src="foto19.jpg" title="Haciéndonos el aguante">
+                <img src="foto20.jpg" title="Desconectando en la cima">
+            </div>
+
+            <p class="memory-text">"Desde saltar y cantar a los gritos en el festival, hasta hacernos el aguante en las aulas de la facu entre apuntes y parciales. Y obvio, sin olvidar nuestras escapadas a lo alto para desconectar. Un año de crecer y proyectar a la par."</p>
         </div>
 
-        <!-- Año 4 -->
+        <!-- Año 4 (Listo para tus fotos) -->
         <div class="memory-block hidden">
             <h2 class="memory-title">Año 4: Y lo que nos falta...</h2>
-            <img class="single-photo" src="foto16.jpg" alt="Nuestro cuarto año">
-            <p class="memory-text">El viaje a Córdoba, todo el esfuerzo que le pusieron para arrancar juntos con Kits&Co este último tiempo, y lo mucho que la amás. ¡El broche de oro!</p>
+            
+            <!-- Acá pondremos el collage del año 4 -->
+            
+            <p class="memory-text">Un mensaje de cierre sobre cómo están hoy y lo mucho que la amás. ¡El broche de oro!</p>
         </div>
 
     </section>
