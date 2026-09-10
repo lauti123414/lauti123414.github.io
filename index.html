@@ -11,10 +11,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body, html {
-            /* Un gradiente más suave y cálido */
             background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
             color: #333;
-            font-family: 'Poppins', sans-serif; /* Tipografía moderna y limpia */
+            font-family: 'Poppins', sans-serif; 
             height: 100%;
             overflow-x: hidden;
             scroll-snap-type: y mandatory;
@@ -24,7 +23,7 @@
         ::-webkit-scrollbar { display: none; }
 
         .snap-container {
-            height: 100dvh; /* dvh soluciona el problema de la barra de navegación en Safari/iPhone */
+            height: 100dvh; 
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
         }
@@ -57,7 +56,7 @@
             animation: flyUp linear infinite;
         }
 
-        /* --- NUEVA ANIMACIÓN DE CORAZONES EN ZIGZAG --- */
+        /* Animación de corazones en zigzag */
         @keyframes flyUp {
             0% { transform: translateY(0) rotate(0deg) scale(1) translateX(0); opacity: 1; }
             33% { transform: translateY(-40vh) rotate(120deg) scale(1.1) translateX(25px); opacity: 0.8; }
@@ -65,7 +64,6 @@
             100% { transform: translateY(-120vh) rotate(360deg) scale(1.5) translateX(0); opacity: 0; }
         }
 
-        /* Títulos elegantes */
         .hero h1 {
             font-family: 'Playfair Display', serif;
             font-size: 4.5rem;
@@ -89,7 +87,6 @@
             font-weight: 300;
         }
 
-        /* --- ESTILOS DEL CONTADOR DE TIEMPO --- */
         .time-counter {
             font-size: 1.1rem;
             color: #b81d49;
@@ -116,15 +113,14 @@
             max-width: 1000px;
         }
 
-        /* Estilo Polaroid para las fotos */
         .photo-item {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             background: #fff;
-            padding: 15px 15px 25px 15px; /* Más padding abajo para simular una Polaroid */
-            border-radius: 4px; /* Bordes menos redondeados */
+            padding: 15px 15px 25px 15px; 
+            border-radius: 4px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             opacity: 0;
             transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -164,7 +160,6 @@
             font-style: italic;
         }
 
-        /* Efecto Glassmorphism para el badge del año */
         .year-badge {
             position: absolute;
             top: 50px;
@@ -175,7 +170,7 @@
             color: #b81d49;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* Soporte para Safari en Mac/iOS */
+            -webkit-backdrop-filter: blur(10px); 
             border: 1px solid rgba(255, 255, 255, 0.5);
             padding: 10px 30px;
             border-radius: 30px;
@@ -225,7 +220,6 @@
             color: #b81d49;
         }
 
-        /* --- ESTILOS DEL BOTÓN DE MÚSICA --- */
         .music-btn {
             position: fixed;
             bottom: 25px;
@@ -267,28 +261,29 @@
 </head>
 <body>
 
-    <!-- Agrega esto justo después de la etiqueta <body> -->
-    <!-- Recordá guardar la canción de Malcolm Todd en la misma carpeta con este nombre -->
     <audio id="bg-music" loop>
         <source src="./malcolm_todd.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Botón flotante para la música -->
     <button id="music-btn" class="music-btn" onclick="toggleMusic()">🎵</button>
 
     <div class="floating-hearts" id="hearts-container"></div>
 
     <div class="snap-container" id="main-container">
         
+        <!-- Pantalla inicial sin el contador -->
         <div class="slide hero visible">
             <h1>Felices 4 Años</h1>
             <div class="subtitle">Nuestra historia</div>
-            <!-- Aquí agregamos el contador -->
-            <div id="time-counter" class="time-counter"></div>
             <p>Deslizá hacia abajo ↓</p>
         </div>
 
+        <!-- Pantalla final con el contador antes del botón -->
         <div class="slide final-slide">
+            
+            <!-- Contador reubicado aquí -->
+            <div id="time-counter" class="time-counter" style="margin-bottom: 30px;"></div>
+
             <button class="btn" onclick="revealMessage()">Tengo una última sorpresa...</button>
             <div id="secret-message">
                 Sos mi persona favorita en el mundo. Me encanta admirar todo lo que lográs y cómo le ponés ganas a cada cosa que haces. Sos y siempre vas a ser mi amor. Gracias por estos 4 años increíbles, por la paciencia y por ser mi mejor equipo. ¡Feliz aniversario, te amo muchísimo! ❤️<br><br>
@@ -346,7 +341,6 @@
             
             let photosHTML = `
                 <div class="photo-item left">
-                    <!-- Agregamos loading="lazy" y el texto en el alt -->
                     <img src="${p1.src}" alt="${p1.text}" loading="lazy">
                     <div class="caption">${p1.text}</div>
                 </div>
@@ -355,7 +349,6 @@
             if (p2) {
                 photosHTML += `
                     <div class="photo-item right">
-                        <!-- Agregamos loading="lazy" y el texto en el alt -->
                         <img src="${p2.src}" alt="${p2.text}" loading="lazy">
                         <div class="caption">${p2.text}</div>
                     </div>
@@ -400,7 +393,6 @@
             document.querySelector('.btn').style.display = 'none';
         }
 
-        // --- LÓGICA DE MÚSICA ---
         const bgMusic = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
         let isPlaying = false;
@@ -411,31 +403,25 @@
                 musicBtn.innerHTML = '🎵';
             } else {
                 bgMusic.play();
-                musicBtn.innerHTML = '⏸️'; // Cambia el ícono al pausar
+                musicBtn.innerHTML = '⏸️'; 
             }
             isPlaying = !isPlaying;
         }
 
-        // --- LÓGICA DEL CONTADOR DE TIEMPO EN VIVO ---
+        // Lógica del contador con precisión de calendario real
         const startDate = new Date("2022-09-11T00:00:00");
         
         function updateCounter() {
             const now = new Date();
             
-            // Calculamos la fecha del aniversario en el año actual
             let currentAnniversary = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
-            
-            // Calculamos los años base
             let years = now.getFullYear() - startDate.getFullYear();
             
-            // Si hoy todavía es antes del 11 de septiembre de este año, restamos 1 a los años
             if (now < currentAnniversary) {
                 years--;
-                // Y fijamos como punto de partida el 11 de septiembre del año pasado
                 currentAnniversary = new Date(now.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
             }
             
-            // Calculamos el tiempo exacto que pasó desde el último aniversario
             const difference = now.getTime() - currentAnniversary.getTime();
 
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -443,7 +429,6 @@
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            // Formatear para que siempre tenga dos dígitos (ej: 09 hs, 05 seg)
             const fHours = hours.toString().padStart(2, '0');
             const fMins = minutes.toString().padStart(2, '0');
             const fSecs = seconds.toString().padStart(2, '0');
@@ -452,9 +437,8 @@
                 `${years} años, ${days} días, ${fHours}:${fMins}:${fSecs}`;
         }
 
-        // Actualizar el contador cada segundo
         setInterval(updateCounter, 1000);
-        updateCounter(); // Llamada inicial
+        updateCounter(); 
     </script>
 </body>
 </html>
