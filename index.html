@@ -57,9 +57,12 @@
             animation: flyUp linear infinite;
         }
 
+        /* --- NUEVA ANIMACIÓN DE CORAZONES EN ZIGZAG --- */
         @keyframes flyUp {
-            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-            100% { transform: translateY(-120vh) rotate(360deg) scale(1.5); opacity: 0; }
+            0% { transform: translateY(0) rotate(0deg) scale(1) translateX(0); opacity: 1; }
+            33% { transform: translateY(-40vh) rotate(120deg) scale(1.1) translateX(25px); opacity: 0.8; }
+            66% { transform: translateY(-80vh) rotate(240deg) scale(1.3) translateX(-25px); opacity: 0.5; }
+            100% { transform: translateY(-120vh) rotate(360deg) scale(1.5) translateX(0); opacity: 0; }
         }
 
         /* Títulos elegantes */
@@ -84,6 +87,24 @@
             animation: pulse 2s infinite;
             margin-top: 40px;
             font-weight: 300;
+        }
+
+        /* --- ESTILOS DEL CONTADOR DE TIEMPO --- */
+        .time-counter {
+            font-size: 1.1rem;
+            color: #b81d49;
+            margin-top: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 10px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            letter-spacing: 1px;
         }
 
         .photos-wrapper {
@@ -204,6 +225,33 @@
             color: #b81d49;
         }
 
+        /* --- ESTILOS DEL BOTÓN DE MÚSICA --- */
+        .music-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
         @keyframes pulse { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(10px); opacity: 1; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -219,6 +267,15 @@
 </head>
 <body>
 
+    <!-- Agrega esto justo después de la etiqueta <body> -->
+    <!-- Recordá guardar la canción de Malcolm Todd en la misma carpeta con este nombre -->
+    <audio id="bg-music" loop>
+        <source src="malcolm_todd.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Botón flotante para la música -->
+    <button id="music-btn" class="music-btn" onclick="toggleMusic()">🎵</button>
+
     <div class="floating-hearts" id="hearts-container"></div>
 
     <div class="snap-container" id="main-container">
@@ -226,6 +283,8 @@
         <div class="slide hero visible">
             <h1>Felices 4 Años</h1>
             <div class="subtitle">Nuestra historia</div>
+            <!-- Aquí agregamos el contador -->
+            <div id="time-counter" class="time-counter"></div>
             <p>Deslizá hacia abajo ↓</p>
         </div>
 
@@ -287,7 +346,8 @@
             
             let photosHTML = `
                 <div class="photo-item left">
-                    <img src="${p1.src}" alt="Foto">
+                    <!-- Agregamos loading="lazy" y el texto en el alt -->
+                    <img src="${p1.src}" alt="${p1.text}" loading="lazy">
                     <div class="caption">${p1.text}</div>
                 </div>
             `;
@@ -295,7 +355,8 @@
             if (p2) {
                 photosHTML += `
                     <div class="photo-item right">
-                        <img src="${p2.src}" alt="Foto">
+                        <!-- Agregamos loading="lazy" y el texto en el alt -->
+                        <img src="${p2.src}" alt="${p2.text}" loading="lazy">
                         <div class="caption">${p2.text}</div>
                     </div>
                 `;
@@ -338,6 +399,51 @@
             document.getElementById('secret-message').style.display = 'block';
             document.querySelector('.btn').style.display = 'none';
         }
+
+        // --- LÓGICA DE MÚSICA ---
+        const bgMusic = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.innerHTML = '🎵';
+            } else {
+                bgMusic.play();
+                musicBtn.innerHTML = '⏸️'; // Cambia el ícono al pausar
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // --- LÓGICA DEL CONTADOR DE TIEMPO EN VIVO ---
+        // Fecha de inicio: 11 de septiembre de 2022 a las 00:00 hs
+        const startDate = new Date("2022-09-11T00:00:00").getTime();
+        
+        function updateCounter() {
+            const now = new Date().getTime();
+            const difference = now - startDate;
+
+            // Cálculos de tiempo
+            const daysTotal = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const years = Math.floor(daysTotal / 365);
+            const days = daysTotal % 365;
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            // Formatear para que siempre tenga dos dígitos (ej: 09 hs, 05 seg)
+            const fHours = hours.toString().padStart(2, '0');
+            const fMins = minutes.toString().padStart(2, '0');
+            const fSecs = seconds.toString().padStart(2, '0');
+
+            document.getElementById("time-counter").innerHTML = 
+                `${years} años, ${days} días, ${fHours}:${fMins}:${fSecs}`;
+        }
+
+        // Actualizar el contador cada segundo
+        setInterval(updateCounter, 1000);
+        updateCounter(); // Llamada inicial para que no tarde 1 segundo en aparecer
     </script>
 </body>
 </html>
