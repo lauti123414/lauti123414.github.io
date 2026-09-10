@@ -417,17 +417,28 @@
         }
 
         // --- LÓGICA DEL CONTADOR DE TIEMPO EN VIVO ---
-        // Fecha de inicio: 11 de septiembre de 2022 a las 00:00 hs
-        const startDate = new Date("2022-09-11T00:00:00").getTime();
+        const startDate = new Date("2022-09-11T00:00:00");
         
         function updateCounter() {
-            const now = new Date().getTime();
-            const difference = now - startDate;
+            const now = new Date();
+            
+            // Calculamos la fecha del aniversario en el año actual
+            let currentAnniversary = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
+            
+            // Calculamos los años base
+            let years = now.getFullYear() - startDate.getFullYear();
+            
+            // Si hoy todavía es antes del 11 de septiembre de este año, restamos 1 a los años
+            if (now < currentAnniversary) {
+                years--;
+                // Y fijamos como punto de partida el 11 de septiembre del año pasado
+                currentAnniversary = new Date(now.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
+            }
+            
+            // Calculamos el tiempo exacto que pasó desde el último aniversario
+            const difference = now.getTime() - currentAnniversary.getTime();
 
-            // Cálculos de tiempo
-            const daysTotal = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const years = Math.floor(daysTotal / 365);
-            const days = daysTotal % 365;
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
@@ -443,7 +454,7 @@
 
         // Actualizar el contador cada segundo
         setInterval(updateCounter, 1000);
-        updateCounter(); // Llamada inicial para que no tarde 1 segundo en aparecer
+        updateCounter(); // Llamada inicial
     </script>
 </body>
 </html>
